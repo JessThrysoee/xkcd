@@ -27,8 +27,6 @@
       widgetSetup();
       getEmpty();
       get();
-
-      //document.documentElement.classList.add('back');
    }
 
    /**
