@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>xkcd</title>
+      <link rel="stylesheet" href="index.css">
+   </head>
+   <body>
+
+      <!-- front side -->
+      <div id="front">
+         <div id='info-button'></div>
+
+         <h1 class="title"><a id="title" href="#" title="view xkcd.com in browser">xkcd</a></h1>
+
+         <nav id="nav">
+            <ul>
+               <li><a id="first" href="#">|&lt;</a></li>
+               <li><a id="prev" rel="prev" href="#" accesskey="p">&lt; Prev</a></li>
+
+               <li><a id="random" href="#">Random</a></li>
+
+               <li><a id="next" rel="next" href="#" accesskey="n">Next &gt;</a></li>
+               <li><a id="last" href="#">&gt;|</a></li>
+            </ul>
+         </nav>
+
+         <div id="alt-container" class="alt-container">
+            <div id="alt" class="alt"></div>
+         </div>
+
+         <img id="img">
+
+      </div>
+
+      <!-- back side -->
+      <div id="back">
+         <div id='done-button'></div>
+
+         <div class="help"><!--
+         --><div class="help-title">Shortcuts</div><!--
+         --><div class="help-left">←<span class="help-delim">:</span></div><div class="help-right">Go to previous comic.</div><!--
+         --><div class="help-left">→<span class="help-delim">:</span></div><div class="help-right">Go to next comic.</div><!--
+         --><div class="help-left">↑<span class="help-delim">:</span></div><div class="help-right">Go to random comic.</div><!--
+         --><div class="help-left">↓<span class="help-delim">:</span></div><div class="help-right">Show / hide <span class="help-small-caps">Alt</span> text.</div><!--
+         --><div class="help-left">Shift + ←<span class="help-delim">:</span></div><div class="help-right">Go to previous comic in browsing history.</div><!--
+         --><div class="help-left">Shift + →<span class="help-delim">:</span></div><div class="help-right">Go to next comic in browsing history.</div><!--
+         --><div class="help-left">Homepage<span class="help-delim">:</span></div><div class="help-right help-homepage"><a id="homepage" href="http://thrysoee.dk/xkcd">http://thrysoee.dk/xkcd</a></div><!--
+        --></div>
+      </div>
+
+      <script src='/System/Library/WidgetResources/AppleClasses/AppleInfoButton.js'></script>
+      <script src='/System/Library/WidgetResources/AppleClasses/AppleAnimator.js'></script>
+      <script src='/System/Library/WidgetResources/AppleClasses/AppleButton.js'></script>
+      <script src="spin.min.js"></script>
+      <script src="index.js"></script>
+   </body>
+</html>
