@@ -169,6 +169,10 @@ nav a.inactive:hover {
    text-shadow: none;
 }
 
+.img-container {
+   max-height: 600px;
+   overflow-y: scroll;
+}
 
 /* help */
 
@@ -214,7 +218,7 @@ nav a.inactive:hover {
    font-variant: small-caps;
 }
 
-.help-homepage {
+.help-margin {
    margin-top: 20px;
 }
 

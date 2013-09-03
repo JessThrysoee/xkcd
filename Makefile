@@ -1,14 +1,12 @@
 
-WDGT:=xkcd.wdgt
-ID:=BD2361EF6D805EA18B6976E4B7EBD06D589B95AB
+VERSION=2
+WDGT=xkcd.v$(VERSION).wdgt
 
-$(WDGT).zip:
+$(WDGT).zip: version
 	git archive -o $(WDGT).zip --prefix=$(WDGT)/ HEAD
-	@#unzip $(WDGT).zip
-	@#codesign -v -s $(ID) $(WDGT)
-	@#zip -r $(WDGT).zip $(WDGT)
-	@#rm -rf $(WDGT)
 
+version:
+	sed -i '' '1,$$s/id="version">[0-9][0-9]*/id="version">$(VERSION)/' index.html
 
 clean:
-	rm -rf $(WDGT) $(WDGT).zip
+	rm -rf xkcd.v*.zip
