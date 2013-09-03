@@ -21,6 +21,7 @@
    function main() {
       spinner = new Spinner();
       history = historyFn();
+      buttonState();
       keyboardNav();
       buttonNav();
       externalNav();
@@ -127,6 +128,7 @@
       $('alt-container').classList.remove('hover');
 
       $('title').innerHTML = data.title;
+      $('sup').innerHTML = data.num;
       $('alt').innerHTML = data.alt;
       $('img').src = data.img;
 
@@ -154,18 +156,16 @@
          $(id).classList.add(cl);
       }
 
-      if (num === 1) {
-         inactive('first');
-         inactive('prev');
-         active('next');
-         active('last');
-
-      } else if (num === last) {
+      if (!num || num === last) {
          active('first');
          active('prev');
          inactive('next');
          inactive('last');
-
+      } else if (num === 1) {
+         inactive('first');
+         inactive('prev');
+         active('next');
+         active('last');
       } else {
          active('first');
          active('prev');
