@@ -10,7 +10,7 @@
 (function() {
    'use strict';
 
-   var xhr, data, last, spinner, history, doneButton, infoButton;
+   var xhr, data, last, spinner, history, doneButton, infoButton, onShow;
 
    main();
 
@@ -26,9 +26,11 @@
       buttonNav();
       externalNav();
       widgetSetup();
+      widgetVisibility();
       getEmpty();
       get();
    }
+
 
    /**
     *
@@ -60,6 +62,19 @@
     *
     */
 
+   function widgetVisibility() {
+      widget.onshow = function() {
+         if (last) {
+            onShow = true;
+            get();
+         }
+      };
+   }
+
+   /**
+    *
+    */
+
    function hidePrefs() {
       widget.prepareForTransition("ToFront");
       document.documentElement.classList.remove('back');
@@ -68,13 +83,14 @@
       }, 0);
    }
 
+
    /**
     * used for initialization of widget
     */
 
    function getEmpty() {
       xhr = new XMLHttpRequest();
-      xhr.onload = xhrload;
+      xhr.onload = xhrload(1);
       xhr.open('GET', 'empty.json', false);
       xhr.send();
    }
@@ -87,12 +103,11 @@
    function get(num) {
       var segment = num ? '/' + num : '';
 
-      last = num ? last : null; // refresh last when getting lastest comic
-
       spinner.spin(document.body);
 
       xhr = new XMLHttpRequest();
-      xhr.onload = xhrload;
+      xhr.onload = xhrload(num);
+      xhr.onerror = xhrerror;
       xhr.open('GET', 'http://xkcd.com' + segment + '/info.0.json', true);
       xhr.send();
    }
@@ -101,20 +116,50 @@
     *
     */
 
-   function xhrload() {
+   function xhrload(num) {
+      return function() {
+
+         if (xhr.status === 200 || xhr.status === 0) {
+            data = JSON.parse(xhr.responseText);
+
+            if (onShow) {
+               onShow = false;
+               if (last === data.num) {
+                  // widget newly visible but no new comics exists
+                  spinner.stop();
+                  return;
+               }
+            }
+
+            last = num ? last : data.num; // refresh last when getting lastest comic
+            getImg();
+
+         } else {
+            xhrerror();
+         }
+      };
+   }
+
+
+   /**
+    *
+    */
+
+   function xhrerror() {
+      spinner.stop();
+      onShow = false;
+      log('Failed with HTTP status:', xhr.status, xhr.statusText);
+   }
+
+   /**
+    *
+    */
+
+   function getImg() {
       var img;
-
-      if (xhr.status === 200 || xhr.status === 0) {
-         data = JSON.parse(xhr.responseText);
-         last = last || data.num;
-
-         img = new Image();
-         img.onload = imgload;
-         img.src = data.img;
-      } else {
-         spinner.stop();
-         log('Failed with HTTP status:', xhr.status, xhr.statusText);
-      }
+      img = new Image();
+      img.onload = imgload;
+      img.src = data.img;
    }
 
    /**
@@ -372,7 +417,7 @@
     */
 
    function log() {
-      var msg = [].slice.call(arguments).join(arguments.length === 1 ? '' : ' ');
+      var msg = [].slice.apply(arguments).join(arguments.length === 1 ? '' : ' ');
 
       if ('widget' in window) {
          window.alert(msg); // can be viewed in Console.app
