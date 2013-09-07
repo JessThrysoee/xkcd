@@ -10,7 +10,7 @@
 (function() {
    'use strict';
 
-   var xhr, data, last, spinner, history, doneButton, infoButton, onShow;
+   var xhr, data, last, spinner, spinnerTimeout, history, doneButton, infoButton, onShow;
 
    main();
 
@@ -83,6 +83,26 @@
       }, 0);
    }
 
+   /**
+    *
+    */
+
+   function spinnerStart() {
+      clearTimeout(spinnerTimeout);
+
+      spinnerTimeout = setTimeout(function() {
+         spinner.spin(document.body);
+      }, 50);
+
+   }
+
+
+   function spinnerStop() {
+      clearTimeout(spinnerTimeout);
+      spinner.stop();
+
+   }
+
 
    /**
     * used for initialization of widget
@@ -103,7 +123,7 @@
    function get(num) {
       var segment = num ? '/' + num : '';
 
-      spinner.spin(document.body);
+      spinnerStart();
 
       xhr = new XMLHttpRequest();
       xhr.onload = xhrload(num);
@@ -126,7 +146,7 @@
                onShow = false;
                if (last === data.num) {
                   // widget newly visible but no new comics exists
-                  spinner.stop();
+                  spinnerStop();
                   return;
                }
             }
@@ -146,7 +166,7 @@
     */
 
    function xhrerror() {
-      spinner.stop();
+      spinnerStop();
       onShow = false;
       log('Failed with HTTP status:', xhr.status, xhr.statusText);
    }
@@ -167,7 +187,7 @@
     */
 
    function imgload() {
-      spinner.stop();
+      spinnerStop();
 
       $('alt-container').classList.remove('alt-container-slowblur');
       $('alt-container').classList.remove('hover');
