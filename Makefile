@@ -1,5 +1,5 @@
 
-VERSION=2
+VERSION=3
 WDGT=xkcd.wdgt
 
 $(WDGT).zip: version

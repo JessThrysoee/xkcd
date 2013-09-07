@@ -11,9 +11,9 @@
 	<key>CFBundleName</key>
 	<string>xkcd</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2</string>
+	<string>3</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
 	<key>MainHTML</key>
 	<string>index.html</string>
 </dict>
